@@ -21,7 +21,6 @@ namespace MiniBank.Repository
 
 
         public void Credit(Operation operation)
-        //angarishxe shemodis tanxa
         {
             operation.Id = _operations.Any() ? _operations.Max(op => op.Id) + 1 : 1;
             _operations.Add(operation);
@@ -34,23 +33,20 @@ namespace MiniBank.Repository
             currenctacc.Balance += operation.Amount;
             accrepo.Update(currenctacc);
             accrepo.SaveData();
-            //TODO შეიცვალოს Accounts.json ის მონაცემები
         }
 
         public void Debit(Operation operation)
         {
-            //angarishidan gadis tanxa
             operation.Id = _operations.Any() ? _operations.Max(op => op.Id) + 1 : 1;
             _operations.Add(operation);
             SaveData();
 
-            //TODO შეიცვალოს Accounts.json ის მონაცემები
+
             AccountJsonRepository accrepo = new AccountJsonRepository(@"../../../../MiniBank.Tests/Data/Accounts.json");
             var currenctacc = accrepo.GetAccount(operation.AccountId);
             currenctacc.Balance -= operation.Amount;
             accrepo.Update(currenctacc);
             accrepo.SaveData();
-            //TODO შეიცვალოს Accounts.json ის მონაცემები
 
         }
 
