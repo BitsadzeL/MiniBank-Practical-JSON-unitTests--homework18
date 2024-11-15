@@ -3,7 +3,7 @@
     "Id": 1,
     "Iban": "RandomIban",
     "Currency": "USD",
-    "Balance": 1.0,
+    "Balance": 450.0,
     "CustomerId": 2,
     "Name": "Hello from Tbilisi"
   },

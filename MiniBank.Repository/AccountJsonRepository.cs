@@ -1,5 +1,4 @@
 ﻿using MiniBank.Models;
-using Newtonsoft.Json;
 using System.Text.Json;
 
 namespace MiniBank.Repository
@@ -15,57 +14,49 @@ namespace MiniBank.Repository
             _accounts = LoadData();
         }
 
-        public List<Account> GetAccounts()
-        {           
-            return _accounts;
-        }
-
-        public List<Account> GetAccountsOfCustomer(int customerId)
-        {
-            return _accounts.Where(x => x.CustomerId == customerId).ToList();
-        }
-
-        public Account GetAccount(int id)
-        {
-            var acc= _accounts.FirstOrDefault(a => a.Id == id);
-            return acc;
-        }
+        public List<Account> GetAccounts() => _accounts;
+        public List<Account> GetAccountsOfCustomer(int customerId) => _accounts.Where(x => x.CustomerId == customerId).ToList();
+        public Account GetAccount(int id) => _accounts.FirstOrDefault(x => x.Id == id);
 
         public void Create(Account account)
         {
-            account.Id = _accounts.Any() ? _accounts.Max(account => account.Id) + 1 : 1;
+            account.Id = _accounts.Any() ? _accounts.Max(a => a.Id) + 1 : 1;
             _accounts.Add(account);
             SaveData();
         }
 
         public void Update(Account account)
         {
-
-            var index = _accounts.FindIndex(c => c.Id == account.Id);
+            var index = _accounts.FindIndex(a => a.Id == account.Id);
             if (index >= 0)
             {
                 _accounts[index] = account;
                 SaveData();
             }
-
         }
 
         public void Delete(int id)
         {
-            _accounts.Remove(_accounts.FirstOrDefault(a => a.Id == id));
-            SaveData();
+            var account = _accounts.FirstOrDefault(a => a.Id == id);
+            if (account != null)
+            {
+                _accounts.Remove(account);
+                SaveData();
+            }
         }
 
-        private void SaveData()
+        public void SaveData()
         {
-            string jsonString = JsonConvert.SerializeObject(_accounts, Formatting.Indented);
-            File.WriteAllText(_filePath, jsonString);
+            var json = JsonSerializer.Serialize(_accounts, new JsonSerializerOptions() { WriteIndented = true });
+            File.WriteAllText(_filePath, json);
         }
 
         private List<Account> LoadData()
-        {           
-            string data=File.ReadAllText(_filePath);
-            return JsonConvert.DeserializeObject<List<Account>>(data);
+        {
+            if (!File.Exists(_filePath))
+                return new List<Account>();
+
+            return JsonSerializer.Deserialize<List<Account>>(File.ReadAllText(_filePath));
         }
     }
 }
