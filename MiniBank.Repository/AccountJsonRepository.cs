@@ -45,18 +45,35 @@ namespace MiniBank.Repository
             }
         }
 
+        //public void SaveData()
+        //{
+
+        //    var json = JsonSerializer.Serialize(_accounts, new JsonSerializerOptions() { WriteIndented = true });
+        //    File.WriteAllText(_filePath, json);
+        //}
+
         public void SaveData()
         {
-            var json = JsonSerializer.Serialize(_accounts, new JsonSerializerOptions() { WriteIndented = true });
-            File.WriteAllText(_filePath, json);
+            
+            using (StreamWriter sw = new StreamWriter(_filePath, append: false))
+            {
+                var json = JsonSerializer.Serialize(_accounts, new JsonSerializerOptions() { WriteIndented = true });
+                sw.WriteLine(json);
+                
+            }
+
         }
+
 
         private List<Account> LoadData()
         {
             if (!File.Exists(_filePath))
                 return new List<Account>();
-
-            return JsonSerializer.Deserialize<List<Account>>(File.ReadAllText(_filePath));
+            
+            using (StreamReader sr = new(_filePath))
+            {                
+                return JsonSerializer.Deserialize<List<Account>>(File.ReadAllText(_filePath));
+            }
         }
     }
 }

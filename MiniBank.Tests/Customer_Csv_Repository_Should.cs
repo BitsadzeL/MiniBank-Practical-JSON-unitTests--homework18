@@ -11,7 +11,7 @@ namespace MiniBank.Tests
         public void Get_All_Customers()
         {
             var customerRepository = new CustomerCsvRepository(_testFilePath);
-            var expected = 2;
+            var expected = 3;
 
             //Act
             var actual = customerRepository.GetCustomers();
@@ -61,7 +61,7 @@ namespace MiniBank.Tests
         {
             //Arrange
             var repository = new CustomerCsvRepository(_testFilePath);
-            var expected = 3;
+            var expected = 4;
             var newCustomer = new Customer()
             {
                 Id = 0,

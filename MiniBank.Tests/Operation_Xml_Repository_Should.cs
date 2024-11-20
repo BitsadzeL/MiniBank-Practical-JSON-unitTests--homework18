@@ -12,7 +12,7 @@ namespace MiniBank.Tests
         {
             //Arrange
             var repository = new OperationXmlRepository(_testFilePath);
-            var expected = 1;
+            var expected = 5;
 
             //Act
             var actual = repository.GetOperations();
@@ -60,7 +60,7 @@ namespace MiniBank.Tests
             {
                 AccountId = 1,
                 CustomerId = 2,
-                Amount = 1000,
+                Amount = 550,
                 Currency = "USD",
                 HappendAt = DateTime.Now,
                 OperationType = OperationType.Credit

@@ -1,4 +1,5 @@
 ﻿using MiniBank.Models;
+using System.Data;
 
 namespace MiniBank.Repository
 {
@@ -45,34 +46,92 @@ namespace MiniBank.Repository
             }
         }
 
-        private void SaveData()
+        //private void SaveData()
+        //{
+        //    var lines = new List<string>() { "Id,Name,IdentityNumber,PhoneNumber,Email,Type" };
+
+        //    lines.AddRange(_customers.Select(customer => $"{customer.Id},{customer.Name},{customer.IdentityNumber},{customer.PhoneNumber},{customer.Email},{customer.Type}"));
+
+        //    File.WriteAllLines(_filePath, lines);
+        //}
+
+
+
+        public void SaveData()
         {
-            var lines = new List<string>() { "Id,Name,IdentityNumber,PhoneNumber,Email,Type" };
+         
+            using (StreamWriter sw = new StreamWriter(_filePath,append:false))
+            {
+                var lines = new List<string>() { "Id,Name,IdentityNumber,PhoneNumber,Email,Type" };
+                lines.AddRange(_customers.Select(customer => $"{customer.Id},{customer.Name},{customer.IdentityNumber},{customer.PhoneNumber},{customer.Email},{customer.Type}"));
+                foreach (var item in lines)
+                {
+                    sw.WriteLine(item);
+                    
+                }
+            }
 
-            lines.AddRange(_customers.Select(customer => $"{customer.Id},{customer.Name},{customer.IdentityNumber},{customer.PhoneNumber},{customer.Email},{customer.Type}"));
-
-            File.WriteAllLines(_filePath, lines);
         }
+
+
+        //private List<Customer> LoadData()
+        //{
+        //    if (!File.Exists(_filePath))
+        //        return new List<Customer>();
+
+        //    return File
+        //        .ReadAllLines(_filePath)
+        //        .Skip(1)
+        //        .Select(line => line.Split(','))
+        //        .Select(parts => new Customer()
+        //        {
+        //            Id = int.Parse(parts[0]),
+        //            Name = parts[1],
+        //            IdentityNumber = parts[2],
+        //            PhoneNumber = parts[3],
+        //            Email = parts[4],
+        //            Type = Enum.Parse<Models.CustomerType>(parts[5])
+        //        })
+        //        .ToList();
+        //}
 
         private List<Customer> LoadData()
         {
             if (!File.Exists(_filePath))
                 return new List<Customer>();
 
-            return File
-                .ReadAllLines(_filePath)
-                .Skip(1)
-                .Select(line => line.Split(','))
-                .Select(parts => new Customer()
+
+            var customers = new List<Customer>();
+
+            
+            using (StreamReader sr = new(_filePath))
+            {
+                var header=sr.ReadLine();
+                
+                string customerDataFromFile;
+
+                while((customerDataFromFile = sr.ReadLine()) != null)
                 {
-                    Id = int.Parse(parts[0]),
-                    Name = parts[1],
-                    IdentityNumber = parts[2],
-                    PhoneNumber = parts[3],
-                    Email = parts[4],
-                    Type = Enum.Parse<Models.CustomerType>(parts[5])
-                })
-                .ToList();
+                    var customerDataParts = customerDataFromFile.Split(',');
+
+                    Customer customer= new Customer();
+                    customer.Id = int.Parse(customerDataParts[0]);
+                    customer.Name = customerDataParts[1];
+                    customer.IdentityNumber = customerDataParts[2];
+                    customer.PhoneNumber = customerDataParts[3];
+                    customer.Email = customerDataParts[4];
+                    customer.Type = Enum.Parse<Models.CustomerType>(customerDataParts[5]);
+
+                    customers.Add(customer);
+
+
+                }
+            }
+
+            return customers;
         }
+
     }
+    
 }
+

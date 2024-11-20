@@ -3,7 +3,7 @@
     "Id": 1,
     "Iban": "RandomIban",
     "Currency": "USD",
-    "Balance": 450.0,
+    "Balance": 3000.0,
     "CustomerId": 2,
     "Name": "Hello from Tbilisi"
   },
@@ -45,6 +45,14 @@
     "Currency": "GEL",
     "Balance": 1245.0,
     "CustomerId": 2,
+    "Name": "Test"
+  },
+  {
+    "Id": 7,
+    "Iban": "GE90SB5621487456385156",
+    "Currency": "GEL",
+    "Balance": 500,
+    "CustomerId": 3,
     "Name": "Test"
   }
 ]

@@ -14,7 +14,7 @@ namespace MiniBank.Tests
         public void Get_All_Accounts()
         {
             var accountRepository = new AccountJsonRepository(_testFilePath);
-            var expected = 6;    
+            var expected = 7;    
 
 
             var actual = accountRepository.GetAccounts();

@@ -66,8 +66,8 @@ namespace Lecture18
 
 
 
-            Console.WriteLine("Test");
-            AccountJsonRepository accrepo = new AccountJsonRepository(@"C:\Users\user\Desktop\minibankPractical\BCTSO-20-NC-2\MiniBank.Tests\Data\Accounts.json");
+            //Console.WriteLine("Test");
+            //AccountJsonRepository accrepo = new AccountJsonRepository(@"C:\Users\user\Desktop\minibankPractical\BCTSO-20-NC-2\MiniBank.Tests\Data\Accounts.json");
             //var a = accrepo.GetAccounts();
             //foreach (var account in a) 
             //{
@@ -97,13 +97,15 @@ namespace Lecture18
             //accrepo.Delete(7);
 
 
-            Account accountToUpdate = new Account()
-            {
-                Id=2,
-                Balance = 1240,
-            };
+            //Account accountToUpdate = new Account()
+            //{
+            //    Id=2,
+            //    Balance = 1240,
+            //};
 
-            accrepo.Update(accountToUpdate);
+            //accrepo.Update(accountToUpdate);
+
+
 
         }
     }

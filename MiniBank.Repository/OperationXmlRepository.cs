@@ -51,53 +51,94 @@ namespace MiniBank.Repository
         }
 
 
+        //public void SaveData()
+        //{
+        //    var doc = new XDocument
+        //    (
+        //        new XElement("Operations",
+        //        _operations.Select(op =>
+        //                new XElement("Operation",
+        //                    new XElement("Id", op.Id),
+        //                    new XElement("AccountId", op.AccountId),
+        //                    new XElement("CustomerId", op.CustomerId),
+        //                    new XElement("Type", op.OperationType),
+        //                    new XElement("Currency", op.Currency),
+        //                    new XElement("Amount", op.Amount),
+        //                    new XElement("HappendAt", op.HappendAt)
+        //                )
+        //            )
+        //        )
+        //    );
+
+        //    doc.Save(_filePath);
+        //}
+
+
+
         public void SaveData()
         {
-            var doc = new XDocument
-            (
-                new XElement("Operations",
-                _operations.Select(op =>
-                        new XElement("Operation",
-                            new XElement("Id", op.Id),
-                            new XElement("AccountId", op.AccountId),
-                            new XElement("CustomerId", op.CustomerId),
-                            new XElement("Type", op.OperationType),
-                            new XElement("Currency", op.Currency),
-                            new XElement("Amount", op.Amount),
-                            new XElement("HappendAt", op.HappendAt)
+            
+            using (StreamWriter sw = new StreamWriter(_filePath, append: false))
+            {
+                var doc = new XDocument
+                (
+                    new XElement("Operations",
+                    _operations.Select(op =>
+                            new XElement("Operation",
+                                new XElement("Id", op.Id),
+                                new XElement("AccountId", op.AccountId),
+                                new XElement("CustomerId", op.CustomerId),
+                                new XElement("Type", op.OperationType),
+                                new XElement("Currency", op.Currency),
+                                new XElement("Amount", op.Amount),
+                                new XElement("HappendAt", op.HappendAt)
+                            )
                         )
                     )
-                )
-            );
+                );
 
-            doc.Save(_filePath);
+                sw.WriteLine(doc);
+
+            }
+
         }
+
+        //StreamReader ფაიილს წაკითხვა
+        //using (StreamReader sr = new(filePath))
+        //{
+        //    var content = sr.ReadToEnd();
+        //}
+
         private List<Operation> LoadData()
         {
             if (!File.Exists(_filePath))
                 return new List<Operation>();
 
-            string xmlFileAsText = File.ReadAllText(_filePath);
+            using (StreamReader sr = new StreamReader(_filePath))
+            {
 
-            if (xmlFileAsText.Trim() == "<?xml version=\"1.0\" encoding=\"utf-8\" ?>" || string.IsNullOrWhiteSpace(xmlFileAsText))
-                return new List<Operation>();
+                string xmlFileAsText = sr.ReadLine();
 
-            var doc = XDocument.Load(_filePath);
+                if (xmlFileAsText.Trim() == "<?xml version=\"1.0\" encoding=\"utf-8\" ?>" || string.IsNullOrWhiteSpace(xmlFileAsText))
+                    return new List<Operation>();
 
-            if (doc == null || doc.Root.Name != "Operations")
-                return new List<Operation>();
+                var doc = XDocument.Load(_filePath);
 
-            return doc.Root.Elements("Operation")
-                .Select(op => new Operation()
-                {
-                    Id = (int)op.Element("Id"),
-                    AccountId = (int)op.Element("AccountId"),
-                    CustomerId = (int)op.Element("CustomerId"),
-                    OperationType = Enum.Parse<OperationType>((string)op.Element("Type")),
-                    Currency = (string)op.Element("Currency"),
-                    Amount = (decimal)op.Element("Amount"),
-                    HappendAt = (DateTime)op.Element("HappendAt")
-                }).ToList();
+                if (doc == null || doc.Root.Name != "Operations")
+                    return new List<Operation>();
+
+                return doc.Root.Elements("Operation")
+                    .Select(op => new Operation()
+                    {
+                        Id = (int)op.Element("Id"),
+                        AccountId = (int)op.Element("AccountId"),
+                        CustomerId = (int)op.Element("CustomerId"),
+                        OperationType = Enum.Parse<OperationType>((string)op.Element("Type")),
+                        Currency = (string)op.Element("Currency"),
+                        Amount = (decimal)op.Element("Amount"),
+                        HappendAt = (DateTime)op.Element("HappendAt")
+                    }).ToList();
+            }
         }
 
 
