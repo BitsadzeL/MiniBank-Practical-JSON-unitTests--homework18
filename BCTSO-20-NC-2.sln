@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniBank.Repository", "Mini
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniBank.Tests", "MiniBank.Tests\MiniBank.Tests.csproj", "{0ADD97FD-BBFD-40DE-81CE-DB8F71A325AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lecture18", "Lecture18\Lecture18.csproj", "{C089D763-CDCD-401B-963D-8B2406CA45C6}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,10 +29,6 @@ Global
 		{0ADD97FD-BBFD-40DE-81CE-DB8F71A325AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0ADD97FD-BBFD-40DE-81CE-DB8F71A325AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0ADD97FD-BBFD-40DE-81CE-DB8F71A325AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C089D763-CDCD-401B-963D-8B2406CA45C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C089D763-CDCD-401B-963D-8B2406CA45C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C089D763-CDCD-401B-963D-8B2406CA45C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C089D763-CDCD-401B-963D-8B2406CA45C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
