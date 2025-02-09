@@ -76,6 +76,39 @@ namespace MiniBank.Repository
             
         }
 
+
+        public async Task<Account> GetAccount(int id)
+        {
+            string commandText = "spGetAccount";
+            Account result = new();
+
+            using (SqlConnection connection = new(_connectionString))
+            {
+                using (SqlCommand command = new(commandText, connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("accountId", id);
+
+                    await connection.OpenAsync();
+
+                    SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                    while (await reader.ReadAsync())
+                    {
+                        result.Id = reader.GetInt32(0);
+                        result.Iban = reader.GetString(1);
+                        result.Currency = reader.GetString(2);
+                        result.Balance = reader.GetDecimal(3);
+                        result.Name = reader.GetString(4);
+                        result.CustomerId = reader.GetInt32(5);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+
         public async Task CreateAccount(Account acc)
         {
             using (SqlConnection connection = new(_connectionString))
